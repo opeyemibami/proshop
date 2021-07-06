@@ -1,0 +1,22 @@
+{
+  "name": "proshop",
+  "version": "1.0.0",
+  "description": "ecommerce MERN",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opeyemibami/proshop.git"
+  },
+  "author": "Yhemmy",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/opeyemibami/proshop/issues"
+  },
+  "homepage": "https://github.com/opeyemibami/proshop#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
