@@ -5,7 +5,13 @@ import { LinkContainer } from 'react-router-bootstrap'
 const Header = () => {
   return (
     <header>
-      <Navbar bg='dark' expand='lg' variant='dark' collapseOnSelect>
+      <Navbar
+        bg='dark'
+        expand='lg'
+        variant='dark'
+        collapseOnSelect
+        fixed='top'
+      >
         <Container>
           <LinkContainer to='/'>
             <Navbar.Brand>YhemCart</Navbar.Brand>
