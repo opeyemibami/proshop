@@ -4,7 +4,6 @@ const hashPass = async (password) => {
 }
 
 const pass1 = await hashPass('123456')
-console.log(pass1)
 
 const users = [
   {
@@ -29,6 +28,5 @@ const users = [
     passowrd: pass1,
   },
 ]
-
 
 export default users
