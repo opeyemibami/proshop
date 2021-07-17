@@ -101,7 +101,7 @@ history.push(`/cart/${match.params.id}?qty=${qty}`)
                   onClick = {addToCartHandler}
                     className='btn-block w-100'
                     type='button'
-                    disble={(product.countInStock === 0).toString()}
+                    disabled={product.countInStock === 0}
                   >
                     Add to Cart
                   </Button>
