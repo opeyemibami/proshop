@@ -22,7 +22,7 @@ const CartScreen = ({ match, location, history }) => {
     dispatch(removeFromCart(id))
   }
 
-  const checkOutHandle = () => {
+  const checkOutHandler = () => {
     history.push('/login?redirect=shipping')
   }
 
@@ -89,8 +89,11 @@ const CartScreen = ({ match, location, history }) => {
           <ListGroup variant='flush'>
             <ListGroup.Item>
               <h2>
-                Subtotal: ({cartItems.reduce((acc, item) => acc + item.qty, 0)}){' '}
-                items
+                Subtotal (
+                {Number(
+                  cartItems.reduce((acc, item) => acc + Number(item.qty), 0)
+                )}
+                ) items
               </h2>
               $
               {cartItems
@@ -102,7 +105,7 @@ const CartScreen = ({ match, location, history }) => {
                 type='button'
                 className='btn-block w-100'
                 disabled={cartItems.length === 0}
-                onClick={checkOutHandle}
+                onClick={checkOutHandler}
               >
                 Proceed To Checkout
               </Button>

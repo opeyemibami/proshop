@@ -17,3 +17,16 @@ h2 {
 .rating span{
   margin: 0.1rem
 }
+
+.cart-basket {
+  font-size: .6rem;
+  position: absolute;
+  top: -6px;
+  right: -1px;
+  width: 15px;
+  height: 15px;
+  color: #fff;
+  background-color: #12509b;
+  border-radius: 50%;
+  text-align: center;
+}
