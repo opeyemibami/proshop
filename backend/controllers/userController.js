@@ -9,7 +9,6 @@ const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
   if (user && user.matchPassword(password)) {
-
     res.json({
       _id: user._id,
       name: user.name,
@@ -23,4 +22,17 @@ const authUser = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser }
+// @desc get user prodfile
+// @route GET /api/users/profile
+// @access private
+const getUserProfile = asyncHandler(async (req, res) => {
+  const user = User.findById(req.user._id)
+  if (user) {
+    res.send(req.user)
+  } else {
+    res.status(404)
+    throw new Error('User not found')
+  }
+})
+
+export { authUser, getUserProfile }

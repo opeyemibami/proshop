@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  passowrd: {
+  password: {
     type: String,
     required: true,
   },
@@ -26,7 +26,14 @@ const userSchema = new mongoose.Schema({
 
 userSchema.methods.matchPassword = async function(enteredPassword){
   const user = this
-  return await bcrypt.compare(enteredPassword,user.passowrd)
+  return await bcrypt.compare(enteredPassword,user.password)
+}
+// a function to define what goes back to the user from the user data
+userSchema.methods.toJSON = function (){
+  const user = this;
+  const userObject = user.toObject()
+  delete userObject.password
+  return userObject
 }
 
 const user = mongoose.model('User',userSchema)
