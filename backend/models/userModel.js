@@ -35,6 +35,14 @@ userSchema.methods.toJSON = function (){
   delete userObject.password
   return userObject
 }
+userSchema.pre('save', async function(){
+  const user = this
+  if(!user.isModified('password')){
+    next()
+  }
+  const salt = await bcrypt.genSalt(10)
+  user.password = await bcrypt.hash(user.password,salt)
+})
 
 const user = mongoose.model('User',userSchema)
 

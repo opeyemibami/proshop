@@ -2,6 +2,28 @@ import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 import asyncHandler from 'express-async-handler'
 
+
+
+// @desc register a new user prodfile
+// @route GET /api/users/
+// @access public
+const registerUser = asyncHandler(async (req, res) => {
+  const {email, password, name} = req.body
+  const userExists = await User.findOne({email})
+  if(userExists){
+    res.status(400)
+    throw new Error('Sorry, this email has already beeen used')
+  }
+
+  const user = await User.create({email, password, name})
+  if (user) {
+    res.status(201).json({ ...user._doc, token: generateToken(user._id) })
+  }else{
+    res.status(400)
+    throw new Error('Invalid user data')
+  }
+})
+
 // @desc auth the user & get token
 // @route GET /api/users/login
 // @access public
@@ -35,4 +57,4 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { authUser, getUserProfile }
+export { registerUser, authUser, getUserProfile }
