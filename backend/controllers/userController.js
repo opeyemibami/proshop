@@ -2,23 +2,21 @@ import User from '../models/userModel.js'
 import generateToken from '../utils/generateToken.js'
 import asyncHandler from 'express-async-handler'
 
-
-
 // @desc register a new user prodfile
 // @route GET /api/users/
 // @access public
 const registerUser = asyncHandler(async (req, res) => {
-  const {email, password, name} = req.body
-  const userExists = await User.findOne({email})
-  if(userExists){
+  const { email, password, name } = req.body
+  const userExists = await User.findOne({ email })
+  if (userExists) {
     res.status(400)
     throw new Error('Sorry, this email has already beeen used')
   }
 
-  const user = await User.create({email, password, name})
+  const user = await User.create({ email, password, name })
   if (user) {
     res.status(201).json({ ...user._doc, token: generateToken(user._id) })
-  }else{
+  } else {
     res.status(400)
     throw new Error('Invalid user data')
   }
@@ -30,7 +28,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
-  if (user && user.matchPassword(password)) {
+  if (user && await user.matchPassword(password)) {
     res.json({
       _id: user._id,
       name: user.name,
