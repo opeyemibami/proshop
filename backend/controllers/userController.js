@@ -54,4 +54,36 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 })
 
-export { registerUser, authUser, getUserProfile }
+// @desc update user profile
+// @route PATCH /api/users
+// @access private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const updates = Object.keys(req.body)
+  const allowedUpdates = ['name', 'email', 'password']
+  const isValidUpdate = updates.every((update) =>
+    allowedUpdates.includes(update)
+  )
+  if (!isValidUpdate) {
+    return res.status(400).send('invalid update')
+  }
+
+  const user = await User.findById(req.user._id)
+  if (!user) {
+    res.status(404)
+    throw new Error('User not found')
+  }
+  updates.forEach((update) => {
+    user[update] = req.body[update]
+  })
+
+  const updatedUser = await user.save()
+  res.json({
+    _id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email,
+    isAdmin: updatedUser.isAdmin,
+    token: generateToken(updatedUser._id),
+  })
+})
+
+export { registerUser, authUser, getUserProfile, updateUserProfile }
