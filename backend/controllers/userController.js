@@ -12,7 +12,6 @@ const registerUser = asyncHandler(async (req, res) => {
     res.status(400)
     throw new Error('Sorry, this email has already beeen used')
   }
-
   const user = await User.create({ email, password, name })
   if (user) {
     res.status(201).json({ ...user._doc, token: generateToken(user._id) })
@@ -28,7 +27,7 @@ const registerUser = asyncHandler(async (req, res) => {
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body
   const user = await User.findOne({ email })
-  if (user && await user.matchPassword(password)) {
+  if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
       name: user.name,
