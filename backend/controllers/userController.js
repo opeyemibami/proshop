@@ -63,6 +63,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   const isValidUpdate = updates.every((update) =>
     allowedUpdates.includes(update)
   )
+
   if (!isValidUpdate) {
     return res.status(400).send('invalid update')
   }

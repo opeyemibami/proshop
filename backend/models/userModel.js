@@ -39,7 +39,7 @@ userSchema.methods.toJSON = function () {
   delete userObject.password
   return userObject
 }
-userSchema.pre('save', async function () {
+userSchema.pre('save', async function (next) {
   const user = this
   if (!user.isModified('password')) {
     next()

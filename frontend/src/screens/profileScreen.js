@@ -3,13 +3,13 @@ import { Button, Row, Col, Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/message'
 import Loader from '../components/loader'
-import { getUserDetails } from '../actions/userActions'
+import { getUserDetails, updateUserProfile } from '../actions/userActions'
 
 const ProfileScreen = ({ location, history }) => {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [password, setPassword] = useState(undefined)
+  const [confirmPassword, setConfirmPassword] = useState(undefined)
   const [message, setMessage] = useState(null)
 
   const dispatch = useDispatch()
@@ -20,13 +20,18 @@ const ProfileScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
+  const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
+  const { success } = userUpdateProfile
   useEffect(() => {
+    // check if user is logged in
     if (!userInfo) {
       history.push('/login')
     } else {
+      // check if user details is already in state to avoid always fetching from the backend
       if (!user.name) {
         dispatch(getUserDetails('profile'))
       } else {
+        // set form field
         setName(user.name)
         setEmail(user.email)
       }
@@ -39,6 +44,7 @@ const ProfileScreen = ({ location, history }) => {
       setMessage('Passwords do not match')
     } else {
       // DISPATCH UPDATE PROFILE
+      dispatch(updateUserProfile({ name, email, password }))
     }
   }
   return (
@@ -47,6 +53,9 @@ const ProfileScreen = ({ location, history }) => {
         <h2>User Profile</h2>
         {message && <Message variant='danger'>{message}</Message>}
         {error && <Message variant='danger'>{error}</Message>}
+        {success && (
+          <Message variant='success'>Profile update successful</Message>
+        )}
         {loading && <Loader />}
 
         <Form onSubmit={submitHandler}>
