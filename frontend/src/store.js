@@ -13,6 +13,7 @@ import {
   userUpdateProfileReducer,
 } from './reducers/userReducers'
 
+// combining reducers 
 const reducer = combineReducers({
   productList: productListReducer,
   productDetails: productDetailReducer,
@@ -23,6 +24,7 @@ const reducer = combineReducers({
   userUpdateProfile: userUpdateProfileReducer,
 })
 
+// initial staets from localStorage
 const cartItermFromStorage = localStorage.getItem('cartItems')
   ? JSON.parse(localStorage.getItem('cartItems'))
   : []
@@ -41,7 +43,10 @@ const initialState = {
   },
   userLogin: { userInfo: userInfofromStorage },
 }
+
+// middleware
 const middleware = [thunk]
+// store create 
 const store = createStore(
   reducer,
   initialState,
